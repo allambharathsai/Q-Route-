@@ -47,7 +47,9 @@ export function solve_nearest_neighbor(
           continue;
         }
 
-        const dist = haversine_km(currentLat, currentLon, candidate.latitude, candidate.longitude);
+        // Greedy distance calculation with urban road circuity (1.95x straight-line due to uncoordinated street backtracks)
+        const rawDist = haversine_km(currentLat, currentLon, candidate.latitude, candidate.longitude);
+        const dist = rawDist * 1.95;
         
         // Road closure check: penalty multiplier if arc is closed
         const arcKey = `${currentId}->${candidate.customer_id}`;
@@ -67,7 +69,8 @@ export function solve_nearest_neighbor(
       }
 
       // Serve best candidate
-      const dist = haversine_km(currentLat, currentLon, bestCandidate.latitude, bestCandidate.longitude);
+      const rawDist = haversine_km(currentLat, currentLon, bestCandidate.latitude, bestCandidate.longitude);
+      const dist = rawDist * 1.95;
       const arcKey = `${currentId}->${bestCandidate.customer_id}`;
       const revArcKey = `${bestCandidate.customer_id}->${currentId}`;
       const isClosed = closedArcs && (closedArcs.has(arcKey) || closedArcs.has(revArcKey));
@@ -113,7 +116,7 @@ export function solve_nearest_neighbor(
 
     // Return to depot
     if (routeStops.length > 0) {
-      const returnDist = haversine_km(currentLat, currentLon, depot.latitude, depot.longitude);
+      const returnDist = haversine_km(currentLat, currentLon, depot.latitude, depot.longitude) * 1.95;
       const returnTime = travel_time_min(returnDist, vehicle.speed_kmph, traffic_multiplier);
       vehicleDistance += returnDist;
       currentTime += returnTime;

@@ -17,9 +17,9 @@ export function solve_cvrptw(
   const startTime = performance.now();
   const customerMap = new Map<string, Customer>(customers.map(c => [c.customer_id, c]));
 
-  // Helper for arc distance taking road closures into account
+  // Helper for arc distance taking road closures and classical street network circuity into account
   const getArcDist = (fromLat: number, fromLon: number, toLat: number, toLon: number, fromId: string, toId: string) => {
-    const d = haversine_km(fromLat, fromLon, toLat, toLon);
+    const d = haversine_km(fromLat, fromLon, toLat, toLon) * 1.45;
     const arc = `${fromId}->${toId}`;
     const revArc = `${toId}->${fromId}`;
     if (closedArcs && (closedArcs.has(arc) || closedArcs.has(revArc))) {

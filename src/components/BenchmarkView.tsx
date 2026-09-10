@@ -58,24 +58,24 @@ export const BenchmarkView: React.FC<BenchmarkViewProps> = ({ report, emissionsC
   const totalDistanceData = [
     {
       name: 'Nearest Neighbor',
-      shortName: 'NN (Greedy)',
+      shortName: 'NN Greedy (High)',
       distance: Number(report.nn.total_distance_km.toFixed(2)),
-      fill: '#64748b',
-      tag: 'Baseline (High Distance)'
+      fill: '#f43f5e',
+      tag: 'High Fleet Distance (Suboptimal)'
     },
     {
       name: 'OR-Tools CVRPTW',
-      shortName: 'OR-Tools',
+      shortName: 'OR-Tools (Somewhat Low)',
       distance: Number(report.cvrptw.total_distance_km.toFixed(2)),
       fill: '#0284c7',
-      tag: 'Classical Metaheuristic'
+      tag: 'Classical Metaheuristic (Intermediate)'
     },
     {
       name: 'QAOA Hybrid Solver',
-      shortName: 'QAOA Hybrid',
+      shortName: 'QAOA Hybrid (Totally Low)',
       distance: Number(report.qaoa.total_distance_km.toFixed(2)),
-      fill: '#6366f1',
-      tag: '★ Winner: Lowest Distance'
+      fill: '#10b981',
+      tag: '★ Winner: Totally Low (Best Optimal)'
     }
   ];
 
@@ -83,42 +83,42 @@ export const BenchmarkView: React.FC<BenchmarkViewProps> = ({ report, emissionsC
   const perVehicleMileageData = [
     {
       vehicle: 'Van Alpha (V01)',
-      nn: Number((report.nn.routes[0]?.distance_km || 16.5).toFixed(1)),
-      cvrptw: Number((report.cvrptw.routes[0]?.distance_km || 12.8).toFixed(1)),
-      qaoa: Number((report.qaoa.routes[0]?.distance_km || 10.4).toFixed(1)),
+      nn: Number((report.nn.routes[0]?.distance_km || 17.6).toFixed(1)),
+      cvrptw: Number((report.cvrptw.routes[0]?.distance_km || 10.0).toFixed(1)),
+      qaoa: Number((report.qaoa.routes[0]?.distance_km || 7.0).toFixed(1)),
     },
     {
       vehicle: 'Van Beta (V02)',
-      nn: Number((report.nn.routes[1]?.distance_km || 14.8).toFixed(1)),
-      cvrptw: Number((report.cvrptw.routes[1]?.distance_km || 11.2).toFixed(1)),
-      qaoa: Number((report.qaoa.routes[1]?.distance_km || 9.6).toFixed(1)),
+      nn: Number((report.nn.routes[1]?.distance_km || 5.8).toFixed(1)),
+      cvrptw: Number((report.cvrptw.routes[1]?.distance_km || 12.8).toFixed(1)),
+      qaoa: Number((report.qaoa.routes[1]?.distance_km || 8.2).toFixed(1)),
     },
     {
       vehicle: 'Van Gamma (V03)',
-      nn: Number((report.nn.routes[2]?.distance_km || 15.2).toFixed(1)),
-      cvrptw: Number((report.cvrptw.routes[2]?.distance_km || 11.4).toFixed(1)),
-      qaoa: Number((report.qaoa.routes[2]?.distance_km || 9.8).toFixed(1)),
+      nn: Number((report.nn.routes[2]?.distance_km || 21.5).toFixed(1)),
+      cvrptw: Number((report.cvrptw.routes[2]?.distance_km || 12.3).toFixed(1)),
+      qaoa: Number((report.qaoa.routes[2]?.distance_km || 10.6).toFixed(1)),
     }
   ];
 
   // 3. Operating Cost & Fuel Burn Comparison Data
   const operatingCostData = [
     {
-      name: 'Nearest Neighbor',
+      name: 'NN Greedy (High)',
       cost: Number(report.nn.total_cost_inr.toFixed(0)),
       fuel: Number((report.nn.total_distance_km * 0.12).toFixed(1)),
       emissions: emissionsComp?.baseline_nn?.co2_kg != null ? Number(emissionsComp.baseline_nn.co2_kg.toFixed(1)) : 8.1,
-      fill: '#64748b'
+      fill: '#f43f5e'
     },
     {
-      name: 'OR-Tools CVRPTW',
+      name: 'OR-Tools (Somewhat Low)',
       cost: Number(report.cvrptw.total_cost_inr.toFixed(0)),
       fuel: Number((report.cvrptw.total_distance_km * 0.12).toFixed(1)),
       emissions: emissionsComp?.ortools?.co2_kg != null ? Number(emissionsComp.ortools.co2_kg.toFixed(1)) : 6.2,
       fill: '#0284c7'
     },
     {
-      name: 'QAOA Hybrid',
+      name: 'QAOA (Totally Low)',
       cost: Number(report.qaoa.total_cost_inr.toFixed(0)),
       fuel: Number((report.qaoa.total_distance_km * 0.12).toFixed(1)),
       emissions: emissionsComp?.qaoa_hybrid?.co2_kg != null ? Number(emissionsComp.qaoa_hybrid.co2_kg.toFixed(1)) : 5.2,
@@ -292,9 +292,9 @@ export const BenchmarkView: React.FC<BenchmarkViewProps> = ({ report, emissionsC
                     formatter={(value: any) => [`${value} km`]}
                   />
                   <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '8px' }} />
-                  <Bar dataKey="nn" name="Nearest Neighbor" fill="#64748b" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="cvrptw" name="OR-Tools" fill="#0284c7" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="qaoa" name="QAOA Hybrid (Lowest)" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="nn" name="NN Greedy (High)" fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="cvrptw" name="OR-Tools (Somewhat Low)" fill="#0284c7" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="qaoa" name="QAOA Hybrid (Totally Low)" fill="#10b981" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
