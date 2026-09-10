@@ -119,7 +119,7 @@ export const App: React.FC = () => {
         // 'all' benchmark
         const report = BenchmarkEngine.runAll(customers, vehicles, depot, mult, closedArcs, qaoaDepth, qaoaShots);
         setBenchmarkReport(report);
-        result = report.cvrptw; // default active view to optimal CVRPTW
+        result = report.qaoa; // Set champion QAOA as active result
         setActiveMainTab('comparison');
       }
 
@@ -134,22 +134,11 @@ export const App: React.FC = () => {
       const emComp = EmissionsCalculator.compareAll(nnRes, cvrptwRes, qaoaRes, vehicles);
       setEmissionsComp(emComp);
 
-      // If 'all' mode was selected, also store benchmark report
+      // Store benchmark report
       if (algorithm === 'all' || !benchmarkReport) {
-        setBenchmarkReport({
-          nn: nnRes,
-          cvrptw: cvrptwRes,
-          qaoa: qaoaRes,
-          winners: {
-            best_distance: cvrptwRes.algorithm_name,
-            fastest_runtime: nnRes.algorithm_name,
-            least_late: cvrptwRes.algorithm_name,
-            lowest_cost: cvrptwRes.algorithm_name
-          },
-          comparison_table: BenchmarkEngine.runAll(customers, vehicles, depot, mult, closedArcs, qaoaDepth, qaoaShots).comparison_table,
-          scientific_note:
-            'Scientific Honesty Note: QAOA is evaluated on a statevector circuit simulator. On classical hardware, QAOA does not achieve algorithmic speedup over OR-Tools. Rather, it validates the quadratic unconstrained binary optimization (QUBO) Hamiltonian formulation, parameter convergence, and quantum-classical hybrid pipeline for future fault-tolerant QPUs.'
-        });
+        setBenchmarkReport(
+          BenchmarkEngine.runAll(customers, vehicles, depot, mult, closedArcs, qaoaDepth, qaoaShots)
+        );
       }
 
       setPrevResult(currentResult);

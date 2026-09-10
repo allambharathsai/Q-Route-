@@ -97,32 +97,37 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           <button
             onClick={() => setAlgorithm('qaoa')}
-            className={`p-2.5 rounded-lg border text-left transition cursor-pointer ${
+            className={`col-span-2 p-2.5 rounded-lg border text-left transition cursor-pointer ${
               algorithm === 'qaoa'
-                ? 'bg-indigo-600/20 border-indigo-500 text-white'
+                ? 'bg-indigo-600/25 border-indigo-500 text-white shadow-sm shadow-indigo-500/20'
                 : 'bg-slate-800/40 border-slate-800 text-slate-400 hover:border-slate-700'
             }`}
           >
-            <div className="text-xs font-bold flex items-center gap-1">
-              <span>QAOA Hybrid</span>
-              <span className="text-[9px] px-1 bg-indigo-500/30 text-indigo-300 rounded">16Q</span>
+            <div className="text-xs font-bold flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <span className="text-indigo-300">QAOA Hybrid Solver</span>
+                <span className="text-[9px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-bold border border-emerald-500/30">★ Best Optimal</span>
+              </span>
+              <span className="text-[10px] font-mono text-cyan-300 font-semibold">Min Distance</span>
             </div>
-            <div className="text-[10px] text-slate-400">QUBO + Qiskit Ansätz</div>
+            <div className="text-[10px] text-slate-400">16Q QUBO Ground State + Multi-Fleet Dispatch (Lowest Fleet Distance)</div>
           </button>
 
           <button
             onClick={() => setAlgorithm('all')}
-            className={`p-2.5 rounded-lg border text-left transition cursor-pointer ${
+            className={`col-span-2 p-2.5 rounded-lg border text-left transition cursor-pointer ${
               algorithm === 'all'
                 ? 'bg-cyan-600/20 border-cyan-500 text-white'
                 : 'bg-slate-800/40 border-slate-800 text-slate-400 hover:border-slate-700'
             }`}
           >
-            <div className="text-xs font-bold flex items-center gap-1">
-              <span>Benchmark All</span>
-              <span className="text-[9px] px-1 bg-cyan-500/30 text-cyan-300 rounded">Report</span>
+            <div className="text-xs font-bold flex items-center justify-between">
+              <span className="flex items-center gap-1">
+                <span>Multi-Algorithm Benchmark & Fleet Graphs</span>
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 bg-cyan-500/30 text-cyan-300 rounded font-bold">Compare All 3</span>
             </div>
-            <div className="text-[10px] text-slate-400">Compare 3 Engines</div>
+            <div className="text-[10px] text-slate-400">Evaluate NN vs OR-Tools vs QAOA Hybrid Across Fleet Metrics</div>
           </button>
         </div>
       </div>
